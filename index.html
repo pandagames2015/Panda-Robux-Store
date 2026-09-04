@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PandaRobux Store - Roblox Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f1712;
+            --card-bg: rgba(26, 38, 30, 0.75);
+            --card-border: rgba(74, 124, 63, 0.25);
+            --primary: #22c55e;
+            --panda-white: #f8fafc;
+            --text-muted: #94a3b8;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--panda-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 40px;
+        }
+
+        header {
+            background: rgba(9, 18, 10, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            cursor: pointer;
+            background: linear-gradient(135deg, #ffffff 0%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 3px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .lang-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 15px 20px 5px;
+        }
+
+        .cool-panda { font-size: 3rem; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            color: #4ade80;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #22c55e;
+            border-radius: 50%;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            width: 100%;
+            flex-grow: 1;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+        }
+
+        .game-banner {
+            height: 110px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: rgba(20, 35, 25, 0.8);
+        }
+
+        .game-body { padding: 15px; }
+
+        .play-btn, .buy-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, #15803d 100%);
+            color: #ffffff;
+            border: none;
+            padding: 10px;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            text-decoration: none;
+            display: block;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--panda-white);
+            padding: 8px 14px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .shop-items-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .shop-item {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            flex: 1 1 260px;
+            max-width: 100%;
+        }
+
+        .badge {
+            position: absolute;
+            top: -8px;
+            right: 10px;
+            background: #334155;
+            color: #f8fafc;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .badge-gold { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); }
+
+        .shop-item h3 { font-size: 1.05rem; }
+
+        .shop-item p.desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 4px 0 10px;
+        }
+
+        .instruction-box {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px dashed rgba(34, 197, 94, 0.35);
+            border-radius: var(--radius-md);
+            padding: 8px 10px;
+            margin-bottom: 12px;
+            font-size: 0.73rem;
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .instruction-box strong {
+            display: block;
+            margin-bottom: 3px;
+            color: #4ade80;
+        }
+
+        .price-tag {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            color: #4ade80;
+            padding: 6px 8px;
+            border-radius: var(--radius-md);
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .gold-card {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: linear-gradient(180deg, rgba(38, 30, 15, 0.75) 0%, rgba(20, 25, 20, 0.75) 100%);
+        }
+
+        .gold-card .buy-btn { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-top">
+            <div class="logo" onclick="openTab('catalog')">
+                <span>🐼 PandaRobux Store</span>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" id="btn-ru" onclick="setLanguage('ru')">RU</button>
+                <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="hero-section">
+        <div class="cool-panda">🐼🕶️</div>
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            <span data-i18n="status">Магазин работает • Продавцы онлайн</span>
+        </div>
+    </div>
+
+    <main>
+        <div id="catalog" class="tab-content active">
+            <div class="section-header">
+                <h2 data-i18n="select_category">🎮 Выберите раздел</h2>
+            </div>
+            <div class="games-grid">
+                <div class="game-card" onclick="openTab('robux-shop')">
+                    <div class="game-banner">💳</div>
+                    <div class="game-body">
+                        <h3>Robux</h3>
+                        <p data-i18n="robux_desc">Покупка валюты Roblox по выгодному курсу</p>
+                        <button class="play-btn" style="margin-top:10px;" data-i18n="buy_robux_btn">Купить Robux</button>
+                    </div>
+                </div>
+
+                <div class="game-card" onclick="openTab('game-forest')">
+                    <div class="game-banner">🌲</div>
+                    <div class="game-body">
+                        <h3>99 ночей в лесу</h3>
+                        <p data-i18n="forest_desc">Бусты, ресурсы и выживание</p>
+                        <button class="play-btn" style="margin-top:10px;" data-i18n="open_shop_btn">Открыть магазин</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="robux-shop" class="tab-content">
+            <button class="back-btn" onclick="openTab('catalog')" data-i18n="back_to_menu">← Назад в меню</button>
+            <h2 data-i18n="robux_title">💳 Покупка Робуксов (Robux)</h2>
+            <br>
+            <div class="shop-items-grid">
+                <div class="shop-item">
+                    <span class="badge" data-i18n="badge_start">Старт</span>
+                    <div>
+                        <h3>100 Robux</h3>
+                        <p class="desc" data-i18n="fast_delivery">Быстрое зачисление</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу 100 Robux за 100 ₽»<br>• В евро: «Хочу 100 Robux за 1.00 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">100 ₽ / 1.00 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item">
+                    <span class="badge" style="background:#0284c7;">Хит</span>
+                    <div>
+                        <h3>250 Robux</h3>
+                        <p class="desc" data-i18n="opt_pack">Оптимальный набор</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу 250 Robux за 250 ₽»<br>• В евро: «Хочу 250 Robux за 2.50 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">250 ₽ / 2.50 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item">
+                    <span class="badge" style="background:#7c3aed;">Популярное</span>
+                    <div>
+                        <h3>500 Robux</h3>
+                        <p class="desc" data-i18n="for_pass">Для геймпасов и VIP</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу 500 Robux за 500 ₽»<br>• В евро: «Хочу 500 Robux за 5.00 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">500 ₽ / 5.00 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item">
+                    <span class="badge" style="background:#16a34a;">Выгодно</span>
+                    <div>
+                        <h3>750 Robux</h3>
+                        <p class="desc" data-i18n="for_active">Для активных игроков</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу 750 Robux за 750 ₽»<br>• В евро: «Хочу 750 Robux за 7.50 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">750 ₽ / 7.50 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item gold-card">
+                    <span class="badge badge-gold">✨ MAX VIP</span>
+                    <div>
+                        <h3 style="color:#fbbf24;">1000 Robux</h3>
+                        <p class="desc" data-i18n="max_pack">Максимальный пак</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу 1000 Robux за 1000 ₽»<br>• В евро: «Хочу 1000 Robux за 10.00 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag" style="color:#fbbf24;">1000 ₽ / 10.00 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-forest" class="tab-content">
+            <button class="back-btn" onclick="openTab('catalog')" data-i18n="back_to_games">← Назад к играм</button>
+            <h2 data-i18n="forest_title">99 ночей в лесу — Наборы Выживания</h2>
+            <br>
+            <div class="shop-items-grid">
+                <div class="shop-item">
+                    <span class="badge">Старт</span>
+                    <div>
+                        <h3>Эконом Буст</h3>
+                        <p class="desc">100 Ночей + Базовые ресурсы</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу Эконом буст за 50 ₽»<br>• В евро: «Хочу Эконом буст за 0.50 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">50 ₽ / 0.50 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item">
+                    <span class="badge" style="background:#0284c7;">Хит</span>
+                    <div>
+                        <h3>Богатый Буст</h3>
+                        <p class="desc">200 Ночей + Ресурсы</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу Богатый буст за 100 ₽»<br>• В евро: «Хочу Богатый буст за 1.00 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">100 ₽ / 1.00 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item">
+                    <span class="badge" style="background:#7c3aed;">Выгодно</span>
+                    <div>
+                        <h3>Премиум Буст</h3>
+                        <p class="desc">300 Ночей + Ресурсы</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу Премиум буст за 150 ₽»<br>• В евро: «Хочу Премиум буст за 1.50 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag">150 ₽ / 1.50 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+
+                <div class="shop-item gold-card">
+                    <span class="badge badge-gold">✨ MAX VIP</span>
+                    <div>
+                        <h3 style="color:#fbbf24;">Божественный Буст</h3>
+                        <p class="desc">500 Ночей + Всё из игры</p>
+                        <div class="instruction-box">
+                            <strong data-i18n="instr_title">📌 Инструкция:</strong>
+                            <span>1. Нажмите «Купить».<br>2. Напишите продавцу:<br>• В рублях: «Хочу Божественный буст за 250 ₽»<br>• В евро: «Хочу Божественный буст за 2.50 €»</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="price-tag" style="color:#fbbf24;">250 ₽ / 2.50 €</div>
+                        <a href="https://t.me/Pandagames241025" target="_blank" class="buy-btn" data-i18n="buy_btn">Купить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const translations = {
+            ru: {
+                status: "Магазин работает • Продавцы онлайн",
+                select_category: "🎮 Выберите раздел",
+                robux_desc: "Покупка валюты Roblox по выгодному курсу",
+                forest_desc: "Бусты, ресурсы и выживание",
+                buy_robux_btn: "Купить Robux",
+                open_shop_btn: "Открыть магазин",
+                back_to_menu: "← Назад в меню",
+                back_to_games: "← Назад к играм",
+                robux_title: "💳 Покупка Робуксов (Robux)",
+                forest_title: "99 ночей в лесу — Наборы Выживания",
+                buy_btn: "Купить",
+                instr_title: "📌 Инструкция:"
+            },
+            en: {
+                status: "Store Working • Sellers Online",
+                select_category: "🎮 Select Category",
+                robux_desc: "Purchase Roblox currency at the best rates",
+                forest_desc: "Boosts, resources, and survival items",
+                buy_robux_btn: "Buy Robux",
+                open_shop_btn: "Open Shop",
+                back_to_menu: "← Back to Menu",
+                back_to_games: "← Back to Games",
+                robux_title: "💳 Purchase Robux",
+                forest_title: "99 Nights in the Forest — Survival Packs",
+                buy_btn: "Buy Now",
+                instr_title: "📌 Instructions:"
+            }
+        };
+
+        function openTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            const activeTab = document.getElementById(tabId);
+            if(activeTab) activeTab.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function setLan
