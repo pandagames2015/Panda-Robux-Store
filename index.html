@@ -501,10 +501,21 @@
         };
 
         function openTab(tabId) {
+            
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             const activeTab = document.getElementById(tabId);
             if(activeTab) activeTab.classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        function setLan
+        function setLan(lang) {
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+            el.textContent = translations[lang][key];
+        }
+    });
+}
+</script>
+</body>
+</html>
